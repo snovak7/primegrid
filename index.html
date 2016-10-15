@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prime Grid</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    function isPrime(number) {
+      var start = 2;
+      while (start <= Math.sqrt(number)) {
+          if (number % start++ < 1) return false;
+      }
+      return number > 1;
+    }
+
+    $(function() {
+      let lastRow = 0;
+      $(".btn").on("click", function(e) {
+        let $body = $(".table").find("tbody");
+        let count = parseInt($(e.target).data().rows);
+
+        for(let i = 1; i <= count; ++i) {
+          lastRow++;
+          $tr = $("<tr>");
+          $tr.append($("<td>").html(lastRow));
+          for(let j = 1; j <= 12; ++j) {
+            let num = ((lastRow-1)*12)+j;
+            let prime = isPrime(num);
+            console.log("Processing number", num, "and", prime ? "is" : "is not", "a prime");
+            let $td = $("<td>");
+            if(prime) {
+              $td.addClass("table-active")
+            } else {
+              $td.addClass("table-warning");
+            }
+            
+            $td.html(num);
+            $tr.append($td);
+          }
+
+          $body.append($tr);
+        }
+          
+      })
+    })
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Prime Grid</h1>
+      <table class="table">
+        <thead>
+          <th>X</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>8</th>
+          <th>9</th>
+          <th>10</th>
+          <th>11</th>
+          <th>12</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <a href="#" class="btn btn-secondary" role="button" data-rows="1">Load next row</a>
+          <button type="button" class="btn btn-secondary" data-rows="10">10 rows</button>
+          <button type="button" class="btn btn-secondary" data-rows="50">50 rows</button>
+          <button type="button" class="btn btn-secondary" data-rows="100">100 rows</button>
+        </div>
+        
+      </div>
+    </div>
+  </body>
+</html>
